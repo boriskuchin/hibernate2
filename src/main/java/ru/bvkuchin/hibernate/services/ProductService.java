@@ -4,8 +4,10 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.bvkuchin.hibernate.models.Buyer;
+import ru.bvkuchin.hibernate.models.Product;
 import ru.bvkuchin.hibernate.repositories.ProductDAO;
 
+import java.security.PublicKey;
 import java.util.List;
 
 @Component
@@ -21,7 +23,17 @@ public class ProductService {
 
     }
 
-    public List<Buyer> findBuyerByProductId(Long id) {
-        return productDAO.findBuyerByProductID(id);
+    public void addProduct(Product product) {
+        productDAO.addProduct(product);
+
     }
+
+    public void updatePriceById(Long id, Double newPrice) {
+        productDAO.updatePriceById(id,newPrice);
+    }
+
+    public List<Product> getProducts() {
+        return productDAO.getProducts();
+    }
+
 }

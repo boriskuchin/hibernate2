@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.bvkuchin.hibernate.models.Buyer;
+import ru.bvkuchin.hibernate.models.Order;
 import ru.bvkuchin.hibernate.models.Product;
 
 import javax.transaction.Transactional;
@@ -24,16 +25,22 @@ public class BuyerDAO {
         this.factoryUtils = factoryUtils;
     }
 
-    public List<Product> findProductByBuyerID (Long id) {
-        List<Product> productList = null;
+    public void addBuyer (Buyer buyer) {
         try (Session session = factoryUtils.getSession()) {
             session.beginTransaction();
-            productList = session.get(Buyer.class, id).getProductList();
-            Hibernate.initialize(productList);
+            session.save(buyer);
             session.getTransaction().commit();
-            return productList;
         }
+    }
 
+
+    public List<Buyer> getBuyers() {
+        try (Session session = factoryUtils.getSession()) {
+            session.beginTransaction();
+            List<Buyer> buyerList = session.createQuery("select b from Buyer b").getResultList();
+            session.getTransaction().commit();
+            return buyerList;
+        }
     }
 
 
