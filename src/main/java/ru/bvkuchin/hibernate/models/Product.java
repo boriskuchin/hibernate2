@@ -15,41 +15,37 @@ public class Product {
     private String name;
     @Column(name = "cost")
     private Double cost;
-    @ManyToMany
-    @JoinTable(
-            name = "buyers_products",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "buyer_id")
-    )
-    private List<Buyer> buyerList;
 
-
-    public List<Buyer> getBuyerList() {
-        return buyerList;
-    }
-
-    public void setBuyerList(List<Buyer> buyerList) {
-        this.buyerList = buyerList;
-    }
+    @OneToMany(mappedBy = "product")
+    private List<Order> orderList;
 
     public Product() {
     }
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", cost=" + cost +
-                ", name=" + name +
-                '}';
+        return  name ;
     }
-    
+
+    public Product(String name, Double cost) {
+        this.name = name;
+        this.cost = cost;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getCost() {
@@ -60,12 +56,11 @@ public class Product {
         this.cost = cost;
     }
 
-
-    public String getName() {
-        return name;
+    public List<Order> getOrderList() {
+        return orderList;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }

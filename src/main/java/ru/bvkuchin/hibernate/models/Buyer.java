@@ -12,23 +12,20 @@ public class Buyer {
     private Long id;
     @Column(name = "name")
     private String name;
-    @ManyToMany
-    @JoinTable(
-            name = "buyers_products",
-            joinColumns = @JoinColumn(name = "buyer_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> productList;
 
-    public Buyer() {
-    }
+    @OneToMany(mappedBy = "buyer")
+    private List<Order> orderList;
 
     @Override
     public String toString() {
-        return "Buyer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
+    }
+
+    public Buyer(String name) {
+        this.name = name;
+    }
+
+    public Buyer() {
     }
 
     public Long getId() {
@@ -47,11 +44,11 @@ public class Buyer {
         this.name = name;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public List<Order> getOrderList() {
+        return orderList;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }

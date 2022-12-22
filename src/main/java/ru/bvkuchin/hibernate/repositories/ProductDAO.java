@@ -22,15 +22,28 @@ public class ProductDAO {
         this.factoryUtils = factoryUtils;
     }
 
-    public List<Buyer> findBuyerByProductID (Long id) {
-        List<Buyer> buyerList = null;
+    public void addProduct (Product product) {
         try (Session session = factoryUtils.getSession()) {
             session.beginTransaction();
-            buyerList = session.get(Product.class, id).getBuyerList();
-            Hibernate.initialize(buyerList);
-            session.getTransaction().commit();
-            return buyerList;
+            session.save(product);
         }
     }
 
+    public void updatePriceById(Long id, Double newPrice) {
+        try (Session session = factoryUtils.getSession()) {
+            session.beginTransaction();
+            Product product = session.get(Product.class, id);
+            product.setCost(newPrice);
+            session.getTransaction().commit();
+        }
+    }
+
+    public List<Product> getProducts() {
+        try (Session session = factoryUtils.getSession()) {
+            session.beginTransaction();
+            List<Product> productList = session.createQuery("select p from Product p").getResultList();
+            session.getTransaction().commit();
+            return productList;
+        }
+    }
 }
